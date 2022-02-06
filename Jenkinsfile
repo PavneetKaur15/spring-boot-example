@@ -12,19 +12,19 @@ pipeline{
                 }
                 
             }
-            stage("clean")
+            stage("Clean")
             {
                 steps{
                     sh "mvn clean"
                 }
             }
-            stage("TEST")
+            stage("Test")
             {
                 steps{
                     sh "mvn test"
                 }
             }
-            stage("package")
+            stage("Package")
             {
                 steps{
                     sh "mvn package"
