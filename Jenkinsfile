@@ -5,18 +5,18 @@ pipeline{
     }
     stages
        {
-            stage("clean")
-            {
-                steps{
-                    sh "mvn clean"
-                }
-            }
-            stage("Build")
+           stage("Build")
             {
                 steps{
                     sh "mvn compile"
                 }
                 
+            }
+            stage("clean")
+            {
+                steps{
+                    sh "mvn clean"
+                }
             }
             stage("TEST")
             {
