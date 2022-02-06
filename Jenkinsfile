@@ -1,50 +1,50 @@
-pipeline
-{
-    agent {
-        label 'slave'
-    }
-    tools
-    {
-        maven 'maven'
-        jdk 'jdk 11'
-    }
-    options
-    {
-        timestamps()
-        buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '5'))
+pipeline{
+    agent any
+    tools { 
+        maven 'maven3'
     }
     stages
-    {
-        stage("Cleanup")
-        {
-            steps
+       {
+            stage("clean")
             {
-                sh 'mvn clean'
+                steps{
+                    sh "mvn clean"
+                }
             }
-        }
-        
-        stage("Test")
-        {
-            steps
+            stage("Build")
             {
-                sh 'mvn test'
+                steps{
+                    sh "mvn compile"
+                }
+                
             }
-        }
-        stage("Package")
-        {
-            steps
+            stage("TEST")
             {
-                sh 'mvn package'
+                steps{
+                    sh "mvn test"
+                }
             }
+            stage("package")
+            {
+                steps{
+                    sh "mvn package"
+                }
+            }
+
+
         }
-    }
-    post
-    {
-       always{
-            mail to: 'deeksha.tripathi@knoldus.com',
+         post {
+        always{
+            mail to: 'shivam.pateriya@knoldus.com',
 			subject: "Pipeline: ${currentBuild.fullDisplayName} is ${currentBuild.currentResult}",
 			body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
         }
-         
+         success {
+            echo "Packaging successful"
+        }
+        failure {
+            echo "Packaging unsuccessful"
+        }
     }
-}
+}        
+   
