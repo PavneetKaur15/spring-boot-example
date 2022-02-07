@@ -24,6 +24,15 @@ pipeline{
                     sh "mvn package"
                 }
             }
+	      stage("Deploy")
+            {
+                steps{
+                    sshagent(['pavneet']) {
+                    sh "scp -o StrictHostKeyChecking=no  /var/lib/jenkins/workspace/Eval-Jenkins_Production/target/*.jar ubuntu@18.212.174.147:/home/ubuntu/"
+                               
+                 }
+                }
+            }
             
       }
      post
