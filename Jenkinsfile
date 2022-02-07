@@ -8,15 +8,9 @@ pipeline{
            stage("Build")
             {
                 steps{
-                    sh "mvn compile"
+                    sh "mvn -B -DskipTests clean package"
                 }
                 
-            }
-            stage("Clean")
-            {
-                steps{
-                    sh "mvn clean"
-                }
             }
             stage("Test")
             {
@@ -24,12 +18,7 @@ pipeline{
                     sh "mvn test"
                 }
             }
-            stage("Package")
-            {
-                steps{
-                    sh "mvn package"
-                }
-            }
+            
       }
     post {
         always {
